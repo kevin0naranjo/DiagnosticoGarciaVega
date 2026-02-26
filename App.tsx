@@ -1,98 +1,86 @@
-// App.tsx
-import React, { useState } from "react";
-import { ViewType } from "./types";
+import React, { useMemo, useState } from "react";
 import Sidebar from "./components/Sidebar";
-import Dashboard from "./components/Dashboard";
-import ProcessMap from "./components/ProcessMap";
-import ImpactEffortMatrix from "./components/ImpactEffortMatrix";
-import Forecasting from "./components/Forecasting";
-import Initiatives from "./components/Initiatives";
-import Scalability from "./components/Scalability";
-import Timeline from "./components/Timeline";
-import Budget from "./components/Budget";
-import NextSteps from "./components/NextSteps";
+import { ViewType } from "./types";
 
-import AIEcosystem from "./components/AIEcosystem";
-import Benchmark from "./components/Benchmark";
-import DigitalStatus from "./components/DigitalStatus";
+import ProblemTreePage from "./pages/ProblemTreePage";
+import DigitalizationPage from "./pages/DigitalizationPage";
+import ProcessMappingPage from "./pages/ProcessMappingPage";
+import PlaceholderPage from "./pages/PlaceholderPage";
 
-import { motion, AnimatePresence } from "framer-motion";
+import BenchmarkPage from "./pages/BenchmarkPage";
+import InitiativesPage from "./pages/InitiativesPage";
+import ScalabilityPage from "./pages/ScalabilityPage";
+import AiEcosystemPage from "./pages/AiEcosystemPage";
+import MatrixPage from "./pages/MatrixPage";
+import DeepDivesPage from "./pages/DeepDivesPage";
 
 const App: React.FC = () => {
-  const [view, setView] = useState<ViewType>("overview");
+  const [currentView, setView] = useState<ViewType>("problem-tree");
 
-  const renderContent = () => {
-    switch (view) {
-      case "overview":
-        return <Dashboard />;
+  const viewTitle = useMemo<Record<ViewType, string>>(
+    () => ({
+      "problem-tree": "Árbol del Problema",
+      digitalization: "Digitalización",
+      "process-mapping": "Mapa de Procesos",
+      benchmark: "Benchmark",
+      "ai-types": "Tipos de IA aplicables",
+      matrix: "Matriz Impacto–Esfuerzo",
+      initiatives: "Iniciativas",
+      "deep-dives": "Deep-Dives",
+      scalability: "Escalabilidad",
+      timeline: "Cronograma",
+      budget: "Presupuesto",
+      disruption: "Disrupción",
+      "annex-nist": "Test Digitalización NIST",
+      "annex-issues": "Problemáticas",
+    }),
+    []
+  );
 
-      case "ai-ecosystem":
-        return <AIEcosystem />;
+  const renderView = () => {
+    switch (currentView) {
+      case "problem-tree":
+        return <ProblemTreePage />;
+
+      case "digitalization":
+        return <DigitalizationPage />;
 
       case "process-mapping":
-        return <ProcessMap />;
-
+        return <ProcessMappingPage />;
       case "benchmark":
-        return <Benchmark />;
-
-      case "digital-status":
-        return <DigitalStatus />;
-
-      case "matrix":
-        return <ImpactEffortMatrix />;
-
-      case "projects-detail":
-        return <Initiatives />;
-
+        return <BenchmarkPage />;
+      case "initiatives":
+        return <InitiativesPage />;
       case "scalability":
-        return <Scalability />;
-
+        return <ScalabilityPage />;
+      case "matrix":
+        return <MatrixPage />;
+      case "ai-types":
+        return <AiEcosystemPage />;
+      case "deep-dives":
+        return <DeepDivesPage />;
       case "timeline":
-        return <Timeline />;
-
       case "budget":
-        return <Budget />;
-
-      case "next-steps":
-        return <NextSteps />;
-
-      case "forecasting":
-        return <Forecasting />;
+      case "disruption":
+      case "annex-nist":
+      case "annex-issues":
+        return <PlaceholderPage title={viewTitle[currentView]} />;
 
       default:
+        // No debería ocurrir si ViewType está bien.
         return null;
     }
   };
 
   return (
-    <div className="min-h-screen flex selection:bg-xactus selection:text-white bg-white">
-      <Sidebar currentView={view} setView={setView} />
+    <div className="min-h-screen bg-white">
+      <Sidebar currentView={currentView} setView={setView} />
 
-      <main className="flex-1 lg:ml-80 pt-24 lg:pt-20 px-6 md:px-12 lg:px-20 pb-20 max-w-[1600px] bg-white">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={view}
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -14 }}
-            transition={{ duration: 0.22 }}
-          >
-            {renderContent()}
-          </motion.div>
-        </AnimatePresence>
-
-        <footer className="mt-40 pt-16 md:pt-20 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-12 text-gray-300 font-black uppercase text-[9px] md:text-[10px] tracking-[0.3em] md:tracking-[0.4em] mb-10 text-center">
-          <div className="flex items-center gap-4">
-            <img
-              src="/images/garciavegalogo.png"
-              className="h-3 md:h-4 grayscale opacity-40"
-              alt="García Vega"
-            />
-            <span>GARCÍA VEGA</span>
-          </div>
-
-          <div className="opacity-40">© XACTUS S.A.S.</div>
-        </footer>
+      {/* Main content */}
+      <main className="pt-20 lg:pt-0 lg:pl-80">
+        <div className="px-6 md:px-10 py-10 md:py-14 max-w-[1400px]">
+          {renderView()}
+        </div>
       </main>
     </div>
   );

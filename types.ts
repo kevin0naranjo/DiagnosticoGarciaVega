@@ -1,19 +1,18 @@
 export type ViewType =
-  | "overview"
-  | "ai-ecosystem"
-  | "benchmark"
+  | "problem-tree"
+  | "digitalization"
   | "process-mapping"
-  | "digital-status"
+  | "benchmark"
+  | "ai-types"
   | "matrix"
-  | "projects-detail"
+  | "initiatives"
+  | "deep-dives"
   | "scalability"
   | "timeline"
   | "budget"
-  | "next-steps"
-  | "forecasting"
-  | "quick-wins"
-  | "commercial-digitalization"
-  | "returns-automation";
+  | "disruption"
+  | "annex-nist"
+  | "annex-issues";
 
 export interface AIApp {
   title: string;
@@ -35,7 +34,7 @@ export interface DeepDivePhase {
 
 export interface DeepDive {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   baseInfo?: string;
   phases: DeepDivePhase[];
   recommendation?: {

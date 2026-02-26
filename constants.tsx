@@ -427,38 +427,3 @@ export const VIEW_PROJECT_IDS: Partial<Record<ViewType, string[]>> = {
   "commercial-digitalization": ["p5"],
   "returns-automation": ["p4"],
 };
-
-/*
-Tipos de IA Aplicables
-1 Captura y Estandarización (Document AI)
-2 Predicción / Forecasting (Machine Learning)
-3 Optimización de Inventario (Planning)
-4 Análisis y Control (Anomaly Detection)
-
-Iniciativas AI
-
-Quick Wins – Altamente Recomendados
-▪ Digitalización Comercial
-▪ Diagnóstico de Clientes
-▪ Gestión de Personal
-
-Big Swings
-▪ Automatización de Reingresos
-▪ Forecasting de Alquiler / Ventas
-
-Nice to Have
-▪ No se formulan proyectos de bajo impacto y bajo esfuerzo
-
-Deprioritize – No recomendado
-▪ Cambio del sistema ERP.
-  Se requiere una curva de aprendizaje larga, que el uso de ERP esté integrado actualmente en los procesos, y que los datos actuales sean un reflejo de la operación.
-
-Road Map
-Digitalización de Comercial — 2-3 meses — Quick Win
-Diagnóstico de Clientes — 2-3 meses — Quick Win
-Gestión de Talento Humano — 2-3 meses — Quick Win
-Automatización de Reingresos — 8-10 meses — Big Swing
-Forecasting de Alquiler y Ventas — 8-10 meses — Big Swing
-
-Sujeto a verificaciones posteriores mediante conversaciones de validación y solicitudes de datos pendientes
-*/

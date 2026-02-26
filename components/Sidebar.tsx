@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { ViewType } from "../types";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -7,35 +7,188 @@ interface SidebarProps {
   setView: (view: ViewType) => void;
 }
 
+type AgendaItem = {
+  n: string;          // "1.1"
+  id: ViewType;       // view id
+  label: string;      // "Árbol del Problema"
+};
+
+type AgendaSection = {
+  n: number;          // 1
+  title: string;      // "Diagnóstico"
+  id?: ViewType;      // solo si la sección es una página (ej: Disrupción)
+  items?: AgendaItem[];
+};
+
 const Sidebar: React.FC<SidebarProps> = ({ currentView, setView }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Estructura tipo “deck” (1–12) + secciones como diapositivas
-  const menuItems: { n: number; id: ViewType; label: string; section: string }[] =
-    [
-      { n: 1, id: "overview", label: "Resumen Ejecutivo", section: "MAIN" },
+  // ✅ Estructura EXACTA de la imagen (si algo no está aquí, NO se muestra)
+  const agenda: AgendaSection[] = useMemo(
+    () => [
+      {
+        n: 1,
+        title: "Diagnóstico",
+        items: [
+          { n: "1.1", id: "problem-tree", label: "Árbol del Problema" },
+          { n: "1.2", id: "digitalization", label: "Digitalización" },
+          { n: "1.3", id: "process-mapping", label: "Mapa de Procesos" },
+        ],
+      },
+      {
+        n: 2,
+        title: "Análisis Competitivo Digital",
+        items: [
+          { n: "2.1", id: "benchmark", label: "Benchmark" },
+          { n: "2.2", id: "ai-types", label: "Tipos de IA aplicables" },
+        ],
+      },
+      {
+        n: 3,
+        title: "Transformación Tecnológica",
+        items: [
+          { n: "3.1", id: "matrix", label: "Matriz Impacto–Esfuerzo" },
+          { n: "3.2", id: "initiatives", label: "Iniciativas" },
+          { n: "3.3", id: "deep-dives", label: "Deep-Dives" },
+          { n: "3.4", id: "scalability", label: "Escalabilidad" },
+        ],
+      },
+      {
+        n: 4,
+        title: "Siguientes Pasos",
+        items: [
+          { n: "4.1", id: "timeline", label: "Cronograma" },
+          { n: "4.2", id: "budget", label: "Presupuesto" },
+        ],
+      },
+      {
+        n: 5,
+        title: "Disrupción",
+        id: "disruption",
+      },
+      {
+        n: 6,
+        title: "Anexos",
+        items: [
+          { n: "6.1", id: "annex-nist", label: "Test Digitalización NIST" },
+          { n: "6.2", id: "annex-issues", label: "Problemáticas" },
+        ],
+      },
+    ],
+    []
+  );
 
-      { n: 2, id: "ai-ecosystem", label: "Tipos de IA Aplicables", section: "DIAGNÓSTICO" },
-      { n: 3, id: "benchmark", label: "Benchmark", section: "DIAGNÓSTICO" },
-      { n: 4, id: "process-mapping", label: "Mapa de Procesos", section: "DIAGNÓSTICO" },
-      { n: 5, id: "digital-status", label: "Digitalización", section: "DIAGNÓSTICO" },
+  // ✅ Guardrail: si por algún motivo te llega un view que no existe aquí, avisamos.
+  const allowedViews = useMemo(() => {
+    const all: ViewType[] = [];
+    for (const s of agenda) {
+      if (s.id) all.push(s.id);
+      if (s.items?.length) all.push(...s.items.map((x) => x.id));
+    }
+    return new Set(all);
+  }, [agenda]);
 
-      { n: 6, id: "matrix", label: "Matriz Impacto–Esfuerzo", section: "PRIORIZACIÓN" },
-      { n: 7, id: "projects-detail", label: "Iniciativas IA (Deep Dives)", section: "PRIORIZACIÓN" },
+  React.useEffect(() => {
+    if (!allowedViews.has(currentView)) {
+      // No debería pasar si tu ViewType está bien, pero lo dejamos blindado.
+      console.warn(
+        `[Sidebar] currentView "${String(
+          currentView
+        )}" NO está en la agenda (imagen). Ocúltalo y elimínalo del proyecto.`
+      );
+    }
+  }, [currentView, allowedViews]);
 
-      { n: 8, id: "scalability", label: "Escalabilidad", section: "EJECUCIÓN" },
-      { n: 9, id: "timeline", label: "Cronograma", section: "EJECUCIÓN" },
-      { n: 10, id: "budget", label: "Presupuesto", section: "EJECUCIÓN" },
-      { n: 11, id: "next-steps", label: "Siguientes Pasos", section: "EJECUCIÓN" },
+  const go = (view: ViewType) => {
+    setView(view);
+    setIsOpen(false);
+  };
 
-      { n: 12, id: "forecasting", label: "Forecasting (Cumbre)", section: "VISIÓN 2026" },
-    ];
+  const SectionHeader = ({ n, title, active }: { n: number; title: string; active?: boolean }) => (
+    <div className="flex items-center gap-4 px-2">
+      <div
+        className={[
+          "w-11 h-11 flex items-center justify-center",
+          "bg-xactus text-white font-black",
+          "rounded-none",
+          active ? "ring-4 ring-blue-900/10" : "",
+        ].join(" ")}
+      >
+        {n}
+      </div>
+      <div className="min-w-0">
+        <div className="text-[16px] font-black text-gray-900 leading-tight">
+          {title}
+        </div>
+      </div>
+    </div>
+  );
 
-  const sections = ["MAIN", "DIAGNÓSTICO", "PRIORIZACIÓN", "EJECUCIÓN", "VISIÓN 2026"];
+  const SubItem = ({ item }: { item: AgendaItem }) => {
+    const active = currentView === item.id;
+
+    return (
+      <button
+        key={item.id}
+        onClick={() => go(item.id)}
+        className={[
+          "w-full text-left flex items-center gap-3",
+          "px-3 py-2 rounded-xl transition-all duration-200",
+          active ? "bg-blue-50 text-gray-900" : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+        ].join(" ")}
+      >
+        <span
+          className={[
+            "w-10 h-10 flex items-center justify-center",
+            "bg-[#1f4f87] text-white font-black text-[11px]",
+            "rounded-none shrink-0",
+            active ? "shadow-md shadow-blue-900/15" : "",
+          ].join(" ")}
+        >
+          {item.n}
+        </span>
+        <span className="text-[13px] font-semibold leading-tight">{item.label}</span>
+      </button>
+    );
+  };
+
+  const SectionBlock = ({ section }: { section: AgendaSection }) => {
+    const isDirect = Boolean(section.id);
+    const anyChildActive = Boolean(section.items?.some((x) => x.id === currentView));
+    const isActive = (isDirect && section.id === currentView) || anyChildActive;
+
+    return (
+      <div className="space-y-3">
+        {isDirect ? (
+          <button
+            onClick={() => section.id && go(section.id)}
+            className={[
+              "w-full text-left rounded-2xl p-2 transition-all",
+              isActive ? "bg-blue-50" : "hover:bg-gray-50",
+            ].join(" ")}
+          >
+            <SectionHeader n={section.n} title={section.title} active={isActive} />
+          </button>
+        ) : (
+          <div className="p-2">
+            <SectionHeader n={section.n} title={section.title} active={isActive} />
+          </div>
+        )}
+
+        {section.items?.length ? (
+          <div className="pl-[56px] space-y-1">
+            {section.items.map((item) => (
+              <SubItem key={item.id} item={item} />
+            ))}
+          </div>
+        ) : null}
+      </div>
+    );
+  };
 
   const NavContent = () => (
-    <div className="p-6 md:p-10 flex flex-col h-full bg-white">
-      <div className="mb-10">
+    <div className="p-6 md:p-8 flex flex-col h-full bg-white">
+      <div className="mb-8">
         <img
           src="/images/xactuslogo.png"
           alt="Xactus Logo"
@@ -44,48 +197,9 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView }) => {
         <div className="h-1 w-12 bg-xactus mt-4"></div>
       </div>
 
-      <nav className="space-y-8 flex-1 overflow-y-auto pr-2 custom-scrollbar">
-        {sections.map((section) => (
-          <div key={section}>
-            <h3 className="text-[9px] font-black uppercase tracking-[0.3em] text-gray-400 mb-3 px-2">
-              {section}
-            </h3>
-
-            <div className="space-y-1">
-              {menuItems
-                .filter((i) => i.section === section)
-                .map((item) => {
-                  const active = currentView === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => {
-                        setView(item.id);
-                        setIsOpen(false);
-                      }}
-                      className={[
-                        "w-full text-left px-4 py-3 rounded-2xl transition-all duration-300",
-                        "font-black text-[11px] uppercase tracking-wider flex items-center gap-3",
-                        active
-                          ? "sidebar-item-active shadow-lg shadow-blue-900/10"
-                          : "text-gray-500 hover:text-xactus hover:bg-gray-50",
-                      ].join(" ")}
-                    >
-                      <span
-                        className={[
-                          "w-9 h-9 rounded-2xl flex items-center justify-center",
-                          "text-xs font-black",
-                          active ? "bg-xactus text-white" : "bg-gray-100 text-gray-600",
-                        ].join(" ")}
-                      >
-                        {item.n}
-                      </span>
-                      <span className="leading-tight">{item.label}</span>
-                    </button>
-                  );
-                })}
-            </div>
-          </div>
+      <nav className="space-y-6 flex-1 overflow-y-auto pr-2 custom-scrollbar">
+        {agenda.map((section) => (
+          <SectionBlock key={section.n} section={section} />
         ))}
       </nav>
 
