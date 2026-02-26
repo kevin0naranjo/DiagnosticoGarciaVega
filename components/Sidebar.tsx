@@ -8,20 +8,18 @@ interface SidebarProps {
 }
 
 type AgendaItem = {
-  n: string;          // "1.1"
-  id: ViewType;       // view id
-  label: string;      // "Árbol del Problema"
+  n: string;
+  id: ViewType;
+  label: string;
 };
 
 type AgendaSection = {
-  n: number;          // 1
-  title: string;      // "Diagnóstico"
-  id?: ViewType;      // solo si la sección es una página (ej: Disrupción)
+  n: number;
+  title: string;
+  id?: ViewType;
   items?: AgendaItem[];
 };
 
-// 1. ✅ Movemos la agenda AFUERA para que sea estática. 
-// Al no depender de props ni state, evitamos recalcularla en cada render.
 const agenda: AgendaSection[] =[
   {
     n: 1,
@@ -66,16 +64,15 @@ const agenda: AgendaSection[] =[
 ];
 
 const allowedViews = new Set(
-  agenda.flatMap((s) => (s.id ? [s.id] : s.items?.map((i) => i.id) ||[]))
+  agenda.flatMap((s) => (s.id ?[s.id] : s.items?.map((i) => i.id) ||[]))
 );
 
-// 2. ✅ Extraemos este subcomponente puro AFUERA del Sidebar.
 const SectionHeader = ({ n, title, active }: { n: number; title: string; active?: boolean }) => (
   <div className="flex items-center gap-4 px-2">
     <div
       className={[
-        "w-11 h-11 flex items-center justify-center",
-        "bg-xactus text-white font-black",
+        "w-10 h-10 flex items-center justify-center shrink-0",
+        "bg-xactus text-white font-bold text-sm",
         "rounded-none",
         active ? "ring-4 ring-blue-900/10" : "",
       ].join(" ")}
@@ -83,7 +80,7 @@ const SectionHeader = ({ n, title, active }: { n: number; title: string; active?
       {n}
     </div>
     <div className="min-w-0">
-      <div className="text-[16px] font-black text-gray-900 leading-tight">
+      <div className="text-[15px] font-bold text-gray-900 leading-tight">
         {title}
       </div>
     </div>
@@ -91,33 +88,26 @@ const SectionHeader = ({ n, title, active }: { n: number; title: string; active?
 );
 
 const Sidebar: React.FC<SidebarProps> = ({ currentView, setView }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const[isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     if (!allowedViews.has(currentView)) {
-      console.warn(
-        `[Sidebar] currentView "${String(
-          currentView
-        )}" NO está en la agenda (imagen). Ocúltalo y elimínalo del proyecto.`
-      );
+      console.warn(`[Sidebar] currentView "${String(currentView)}" no está en agenda.`);
     }
-  },[currentView]);
+  }, [currentView]);
 
   const go = (view: ViewType) => {
     setView(view);
     setIsOpen(false);
   };
 
-  // 3. ✅ Evaluamos el JSX directamente dentro del render como una variable.
-  // Esto hace que el elemento <nav> siempre sea el mismo nodo del DOM para React,
-  // preservando el SCROLL y el FOCUS de forma perfecta en las actualizaciones.
   const navContentJsx = (
-    <div className="p-6 md:p-8 flex flex-col h-full bg-white">
+    <div className="p-5 md:p-8 flex flex-col h-full bg-white font-sans">
       <div className="mb-8">
         <img
           src="/images/xactuslogo.png"
           alt="Xactus Logo"
-          className="h-10 md:h-12 w-auto mb-2"
+          className="h-8 md:h-10 w-auto mb-2 object-contain"
         />
         <div className="h-1 w-12 bg-xactus mt-4"></div>
       </div>
@@ -129,12 +119,12 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView }) => {
           const isActive = (isDirect && section.id === currentView) || anyChildActive;
 
           return (
-            <div key={section.n} className="space-y-3">
+            <div key={section.n} className="space-y-2">
               {isDirect ? (
                 <button
                   onClick={() => section.id && go(section.id)}
                   className={[
-                    "w-full text-left rounded-2xl p-2 transition-all",
+                    "w-full text-left rounded-xl p-2 transition-all",
                     isActive ? "bg-blue-50" : "hover:bg-gray-50",
                   ].join(" ")}
                 >
@@ -147,7 +137,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView }) => {
               )}
 
               {section.items?.length ? (
-                <div className="pl-[56px] space-y-1">
+                <div className="pl-[52px] space-y-1">
                   {section.items.map((item) => {
                     const itemActive = currentView === item.id;
                     return (
@@ -158,21 +148,21 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView }) => {
                           "w-full text-left flex items-center gap-3",
                           "px-3 py-2 rounded-xl transition-all duration-200",
                           itemActive
-                            ? "bg-blue-50 text-gray-900"
-                            : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
+                            ? "bg-blue-50 text-gray-900 font-bold"
+                            : "text-gray-600 font-medium hover:bg-gray-50 hover:text-gray-900",
                         ].join(" ")}
                       >
                         <span
                           className={[
-                            "w-10 h-10 flex items-center justify-center",
-                            "bg-[#1f4f87] text-white font-black text-[11px]",
+                            "w-8 h-8 flex items-center justify-center",
+                            "bg-[#1f4f87] text-white font-bold text-[10px]",
                             "rounded-none shrink-0",
-                            itemActive ? "shadow-md shadow-blue-900/15" : "",
+                            itemActive ? "shadow-sm shadow-blue-900/15" : "",
                           ].join(" ")}
                         >
                           {item.n}
                         </span>
-                        <span className="text-[13px] font-semibold leading-tight">
+                        <span className="text-[13px] leading-tight">
                           {item.label}
                         </span>
                       </button>
@@ -186,11 +176,11 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView }) => {
       </nav>
 
       <div className="pt-6 border-t border-gray-100 mt-auto">
-        <div className="bg-gray-50 p-4 rounded-2xl">
+        <div className="bg-gray-50 p-4 rounded-xl flex justify-center">
           <img
             src="/images/garciavegalogo.png"
             alt="Garcia Vega Logo"
-            className="w-full h-auto max-w-20 grayscale opacity-40"
+            className="w-full h-auto max-w-[5rem] grayscale opacity-40 object-contain"
           />
         </div>
       </div>
@@ -204,12 +194,12 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView }) => {
         {navContentJsx}
       </aside>
 
-      {/* Mobile Header */}
+      {/* Mobile Header (Corregida la URL de la imagen) */}
       <div className="lg:hidden fixed top-0 left-0 w-full bg-white border-b border-gray-100 z-[60] px-6 py-4 flex justify-between items-center shadow-sm">
         <img
-          src="https://xactus.io/wp-content/uploads/2025/02/Logo.png"
+          src="/images/xactuslogo.png"
           alt="Xactus"
-          className="h-8"
+          className="h-7 w-auto object-contain"
         />
         <button onClick={() => setIsOpen(!isOpen)} className="p-2 text-xactus">
           {isOpen ? (
