@@ -123,6 +123,7 @@ const InitiativesPage: React.FC = () => {
         title: "Digitalización Comercial",
         baseCost: "Base de costos: 17 representantes cuestan alrededor de 612M COP / Año",
         pctHeader: "% de base de ingresos",
+        tag: { label: "Quick Win", tone: "quick" },
         rows:[
           {
             phase: "Fase 1: Proceso de cotización estándar para el área comercial",
@@ -367,5 +368,6 @@ const InitiativesPage: React.FC = () => {
     </div>
   );
 };
+
 
 export default InitiativesPage;
