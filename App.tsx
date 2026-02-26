@@ -13,7 +13,9 @@ import ScalabilityPage from "./pages/ScalabilityPage";
 import AiEcosystemPage from "./pages/AiEcosystemPage";
 import MatrixPage from "./pages/MatrixPage";
 import DeepDivesPage from "./pages/DeepDivesPage";
-
+import CronogramaDigitalizacionComercialPage from "./pages/CronogramaDigitalizacionComercialPage";
+import PresupuestoPage from "./pages/PresupuestoPage";
+import DisrupcionPage from "./pages/DisrupcionPage";
 const App: React.FC = () => {
   const [currentView, setView] = useState<ViewType>("problem-tree");
 
@@ -60,8 +62,17 @@ const App: React.FC = () => {
       case "deep-dives":
         return <DeepDivesPage />;
       case "timeline":
+        return <CronogramaDigitalizacionComercialPage />;
+
+        
       case "budget":
+        return <PresupuestoPage />;
+
+        
       case "disruption":
+        return <DisrupcionPage />;
+
+        
       case "annex-nist":
       case "annex-issues":
         return <PlaceholderPage title={viewTitle[currentView]} />;
