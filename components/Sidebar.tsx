@@ -25,7 +25,7 @@ const agenda: AgendaSection[] =[
     n: 1,
     title: "Diagnóstico",
     items:[
-      { n: "1.1", id: "problem-tree", label: "Árbol del Problema" },
+      { n: "1.1", id: "problem-tree", label: "Análisis del Problema" },
       { n: "1.2", id: "digitalization", label: "Digitalización" },
       { n: "1.3", id: "process-mapping", label: "Mapa de Procesos" },
     ],
