@@ -65,15 +65,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setView }) => {
         n: 5,
         title: "Disrupción",
         id: "disruption",
-      },
-      {
-        n: 6,
-        title: "Anexos",
-        items: [
-          { n: "6.1", id: "annex-nist", label: "Test Digitalización NIST" },
-          { n: "6.2", id: "annex-issues", label: "Problemáticas" },
-        ],
-      },
+      }
     ],
     []
   );
