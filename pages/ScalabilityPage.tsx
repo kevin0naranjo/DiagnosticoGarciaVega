@@ -4,8 +4,19 @@ import React, { useMemo } from "react";
 type Item = {
   title: string;
   months: string;
-  tag: string; // Quick Win / Nice to Have / Big Swing
+  tag: "Quick Win" | "Nice to Have" | "Big Swing";
   position: "top" | "bottom";
+};
+
+const NAVY = "#0F3B68";
+const QUICK = "#163E72";
+const BIG = "#1F5F9F";
+const NICE = "#4F97DC";
+
+const tagColor = (tag: Item["tag"]) => {
+  if (tag === "Quick Win") return QUICK;
+  if (tag === "Nice to Have") return NICE;
+  return BIG;
 };
 
 const ScalabilityPage: React.FC = () => {
@@ -21,129 +32,117 @@ const ScalabilityPage: React.FC = () => {
   );
 
   return (
-    <div className="animate-in fade-in duration-700">
+    <div className="w-full animate-in fade-in duration-500">
       {/* Title */}
-      <h1 className="text-5xl md:text-8xl font-black tracking-tighter text-gray-900 mb-10">
+      <h1 className="text-[44px] md:text-[64px] font-black tracking-tight text-gray-900 mb-6">
         Road Map
       </h1>
 
-      {/* Intro text */}
-      <p className="max-w-6xl text-xl md:text-3xl text-gray-500 font-medium leading-relaxed mb-16">
-        Las iniciativas IA están conectadas entre sí, en forma de Habilitadoras Tecnológicas, donde las
-        bases de digitalización de iniciativas anteriores permiten el{" "}
-        <span className="text-gray-900 font-bold">desarrollo y la escalabilidad</span> de proyectos
-        posteriores. Por tal razón, se propone el siguiente <span className="italic">Road Map</span>:
+      {/* Intro */}
+      <p className="max-w-5xl text-[15px] md:text-[18px] text-gray-600 leading-relaxed mb-10">
+        Las iniciativas IA están conectadas entre sí, en forma de habilitadoras tecnológicas: las bases de
+        digitalización de iniciativas anteriores permiten el{" "}
+        <span className="text-gray-900 font-semibold">desarrollo y la escalabilidad</span> de proyectos
+        posteriores. Por tal razón, se propone el siguiente <span className="italic">Road Map</span>.
       </p>
 
-      {/* Roadmap Canvas */}
+      {/* Canvas */}
       <div className="relative w-full">
-        {/* Arrow body */}
-        <div className="relative w-full rounded-[2.5rem] overflow-hidden border border-gray-100 shadow-sm">
-          {/* light gradient lane */}
-          <div
-            className="h-[220px] md:h-[260px] w-full"
-            style={{
-              background:
-                "linear-gradient(90deg, rgba(240,244,248,1) 0%, rgba(214,231,247,1) 55%, rgba(172,208,239,1) 100%)",
-            }}
-          />
-          {/* Arrow head */}
-          <div
-            className="absolute right-[-40px] top-0 h-full w-[180px]"
-            style={{
-              clipPath: "polygon(0 0, 55% 0, 100% 50%, 55% 100%, 0 100%)",
-              background: "rgba(172,208,239,1)",
-            }}
-          />
+        {/* Labels TOP */}
+        <div className="w-full max-w-6xl mx-auto px-4 md:px-8 grid grid-cols-5 gap-3">
+          {items.map((it, idx) =>
+            it.position === "top" ? (
+              <LabelBlock key={`t-${idx}`} align="left" item={it} />
+            ) : (
+              <div key={`t-${idx}`} />
+            )
+          )}
+        </div>
 
-          {/* Left faint wedge */}
-          <div
-            className="absolute left-[-46px] top-0 h-full w-[140px]"
-            style={{
-              clipPath: "polygon(100% 0, 0 50%, 100% 100%)",
-              background: "rgba(240,244,248,1)",
-              opacity: 0.9,
-            }}
-          />
+        {/* Arrow lane */}
+        <div className="mt-4 w-full max-w-6xl mx-auto px-4 md:px-8">
+          <div className="relative rounded-[28px] overflow-visible">
+            {/* Lane */}
+            <div
+              className="relative w-full h-[120px] md:h-[140px] rounded-[28px] border border-black/10 shadow-sm overflow-hidden"
+              style={{
+                background:
+                  "linear-gradient(90deg, rgba(240,244,248,1) 0%, rgba(214,231,247,1) 55%, rgba(172,208,239,1) 100%)",
+              }}
+            >
+              {/* Left wedge (faint) */}
+              <div
+                className="absolute left-[-42px] top-0 h-full w-[120px]"
+                style={{
+                  clipPath: "polygon(100% 0, 0 50%, 100% 100%)",
+                  background: "rgba(240,244,248,1)",
+                  opacity: 0.95,
+                }}
+              />
 
-          {/* Squares */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="w-full max-w-6xl px-6 md:px-10 flex items-center justify-between">
-              {items.map((it, idx) => {
-                // colors approximating slide
-                const base =
-                  it.tag === "Quick Win"
-                    ? "#183f73"
-                    : it.tag === "Nice to Have"
-                    ? "#4f97dc"
-                    : "#1f5f9f";
+              {/* Arrow head */}
+              <div
+                className="absolute right-[-48px] top-0 h-full w-[170px]"
+                style={{
+                  clipPath: "polygon(0 0, 55% 0, 100% 50%, 55% 100%, 0 100%)",
+                  background: "rgba(172,208,239,1)",
+                }}
+              />
 
-                return (
-                  <div key={idx} className="relative flex-1 flex justify-center">
+              {/* Squares */}
+              <div className="absolute inset-0 grid grid-cols-5">
+                {items.map((it, idx) => (
+                  <div key={idx} className="flex items-center justify-center">
                     <div
-                      className="w-16 h-16 md:w-20 md:h-20"
+                      className="w-[46px] h-[46px] md:w-[54px] md:h-[54px]"
                       style={{
-                        background: base,
-                        border:
-                          it.tag === "Nice to Have" ? "3px solid rgba(255,255,255,0.9)" : "3px solid rgba(255,255,255,0.85)",
-                        boxShadow: "0 8px 22px rgba(0,0,0,0.08)",
+                        background: tagColor(it.tag),
+                        border: "3px solid rgba(255,255,255,0.9)",
+                        boxShadow: "0 10px 22px rgba(0,0,0,0.08)",
                       }}
                     />
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Labels TOP */}
-        <div className="absolute left-0 right-0 top-[-10px]">
-          <div className="w-full max-w-6xl mx-auto px-6 md:px-10 flex items-start justify-between">
-            {items.map((it, idx) => (
-              <div key={`top-${idx}`} className="flex-1">
-                {it.position === "top" ? (
-                  <div className="text-left">
-                    <div className="text-2xl md:text-4xl font-black leading-tight text-gray-900 whitespace-pre-line">
-                      {it.title}
-                    </div>
-                    <div className="mt-3 text-xl md:text-3xl font-medium text-gray-900">
-                      {it.months}
-                    </div>
-                    <div className="mt-1 text-xl md:text-3xl font-medium text-gray-500">
-                      {it.tag}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="h-[1px]" />
-                )}
-              </div>
-            ))}
-          </div>
+        {/* Labels BOTTOM */}
+        <div className="mt-6 w-full max-w-6xl mx-auto px-4 md:px-8 grid grid-cols-5 gap-3">
+          {items.map((it, idx) =>
+            it.position === "bottom" ? (
+              <LabelBlock key={`b-${idx}`} align="center" item={it} />
+            ) : (
+              <div key={`b-${idx}`} />
+            )
+          )}
         </div>
 
-        {/* Labels BOTTOM */}
-        <div className="mt-10">
-          <div className="w-full max-w-6xl mx-auto px-6 md:px-10 flex items-start justify-between">
-            {items.map((it, idx) => (
-              <div key={`bottom-${idx}`} className="flex-1">
-                {it.position === "bottom" ? (
-                  <div className="text-center">
-                    <div className="text-2xl md:text-4xl font-black leading-tight text-gray-900 whitespace-pre-line">
-                      {it.title}
-                    </div>
-                    <div className="mt-3 text-xl md:text-3xl font-medium text-gray-900">
-                      {it.months}
-                    </div>
-                    <div className="mt-1 text-xl md:text-3xl font-medium text-gray-500">
-                      {it.tag}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="h-[1px]" />
-                )}
-              </div>
-            ))}
+        {/* Small foot note (optional, same feel as deck) */}
+        <div className="mt-8 max-w-6xl mx-auto px-4 md:px-8">
+          <div className="h-[2px] bg-black/80 w-[2px] md:w-[2px] hidden" />
+          <div className="text-[12px] md:text-[13px] text-gray-500">
+            * Los tiempos son estimaciones iniciales y pueden ajustarse según validaciones y disponibilidad de datos.
           </div>
+        </div>
+      </div>
+
+      {/* Mobile fallback (stack) */}
+      <div className="mt-10 md:hidden">
+        <div className="text-sm font-semibold text-gray-900 mb-3">Vista móvil</div>
+        <div className="space-y-3">
+          {items.map((it) => (
+            <div key={it.title} className="border border-black/10 rounded-xl overflow-hidden">
+              <div className="px-4 py-3 text-white font-semibold" style={{ background: NAVY }}>
+                {it.title.replaceAll("\n", " ")}
+              </div>
+              <div className="px-4 py-3 text-[14px] text-gray-700 flex items-center justify-between">
+                <span className="font-medium">{it.months}</span>
+                <span className="text-gray-500">{it.tag}</span>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -151,3 +150,24 @@ const ScalabilityPage: React.FC = () => {
 };
 
 export default ScalabilityPage;
+
+function LabelBlock({
+  item,
+  align,
+}: {
+  item: Item;
+  align: "left" | "center" | "right";
+}) {
+  const alignClass =
+    align === "left" ? "text-left" : align === "right" ? "text-right" : "text-center";
+
+  return (
+    <div className={alignClass}>
+      <div className="text-[16px] md:text-[20px] font-extrabold leading-snug text-gray-900 whitespace-pre-line">
+        {item.title}
+      </div>
+      <div className="mt-1 text-[14px] md:text-[16px] font-medium text-gray-900">{item.months}</div>
+      <div className="text-[13px] md:text-[15px] font-medium text-gray-500">{item.tag}</div>
+    </div>
+  );
+}
