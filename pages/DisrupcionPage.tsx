@@ -2,201 +2,151 @@ import React, { useMemo, useState } from "react";
 
 type Item = {
   id: string;
+  num: number;
+  shortTitle: string;
   title: string;
-  subtitle?: string;
-  mediaType: "image" | "video";
-  mediaSrc: string;
-  bullets: string[];
-  outcome: string[];
-  kpis: string[];
-  reqFunc: string[];
-  reqTech: string[];
+  description: string[];
+  extraBullets?: string[];
+  techTitle?: string;
+  techDesc: string;
+  monetization: string;
+  impact: string;
+  risk: string;
+  mediaType?: "image" | "video";
+  mediaSrc?: string;
 };
 
 export default function DisrupcionPage() {
   const items: Item[] = useMemo(
     () =>[
       {
-        id: "estaciones-carga",
-        title: "Estructuras Modulares para Estaciones de Carga",
-        subtitle: "Infraestructura escalable y rápida de desplegar",
-        mediaType: "image",
-        mediaSrc: "/images/disrupcion/estaciones-carga.png",
-        bullets:[
-          "Sistema modular para cubrir múltiples configuraciones de cargadores (AC/DC) y potencias.",
-          "Diseño pensado para montaje rápido, mantenimiento sencillo y expansión por etapas.",
-          "Estandarización de piezas para reducir costos, tiempos de fabricación y logística.",
+        id: "pricing-dinamico",
+        num: 1,
+        shortTitle: "Pricing Dinámico",
+        title: "Pricing Dinámico para Alquiler",
+        description:[
+          "Implementación de un modelo algorítmico que ajuste precios en función de ocupación histórica, escasez por sede, urgencia del cliente y comportamiento de demanda.",
         ],
-        outcome:[
-          "Disminución del tiempo de instalación por estación.",
-          "Catálogo de módulos estandarizados (bases, columnas, cubiertas, canalización, protecciones).",
-          "Diseños listos para fabricación con variantes por clima/entorno (interior/exterior).",
-        ],
-        kpis:[
-          "Tiempo de instalación (días/horas por estación)",
-          "Costo por punto de carga",
-          "Tasa de mantenimiento (MTTR)",
-          "Disponibilidad del punto de carga (uptime)",
-        ],
-        reqFunc:[
-          "Definir catálogo de módulos y configuraciones soportadas.",
-          "Guías de montaje, inspección y mantenimiento.",
-          "Criterios de seguridad/operación para entornos públicos y privados.",
-        ],
-        reqTech:[
-          "Normas aplicables (seguridad eléctrica, viento, corrosión, anclajes).",
-          "Planos y especificaciones de fabricación (acero, recubrimientos, tornillería).",
-          "Interfaz con proveedores de cargadores (dimensiones, peso, disipación).",
-        ],
+        techTitle: "Tecnología Habilitadora",
+        techDesc: "Modelos predictivos básicos y reglas inteligentes integradas al sistema comercial.",
+        monetization: "Optimización de margen por línea crítica sin modificar estructura de costos.",
+        impact: "Incremento estimado de margen entre 3% y 8% en líneas de alta rotación.",
+        risk: "Bajo – Extensión del modelo actual sin cambio estructural.",
       },
       {
-        id: "smart-pole",
-        title: "Smart Pole",
-        subtitle: "Poste inteligente: energía + sensórica + conectividad",
-        mediaType: "image",
-        mediaSrc: "/images/disrupcion/smart-pole.png",
-        bullets:[
-          "Integración de iluminación, cámaras, sensores ambientales, Wi-Fi y cargadores en un solo poste.",
-          "Arquitectura modular para incluir o remover componentes según el caso de uso.",
-          "Gestión centralizada: monitoreo, alertas y mantenimiento preventivo.",
+        id: "torre-control",
+        num: 2,
+        shortTitle: "Torre de Control Digital",
+        title: "Torre de Control Digital para Clientes Estratégicos",
+        description:[
+          "Desarrollo de un dashboard externo para clientes clave con visibilidad en tiempo real de inventario alquilado, consumo por obra y proyección de devoluciones.",
         ],
-        outcome:[
-          "Prototipo funcional con módulos intercambiables.",
-          "Especificación del BOM (lista de materiales) y variantes por ciudad/cliente.",
-          "Base para licitar con entidades y constructoras (estandarización + escalabilidad).",
-        ],
-        kpis:[
-          "Consumo energético por poste",
-          "Disponibilidad de conectividad",
-          "Eventos/alertas atendidas a tiempo",
-          "Costo total de propiedad (TCO)",
-        ],
-        reqFunc:[
-          "Definir casos de uso por segmento (seguridad, movilidad, parques, zonas comerciales).",
-          "Panel de gestión: inventario de postes, módulos activos y estado.",
-          "Flujo de mantenimiento: tickets, SLA y reposición de módulos.",
-        ],
-        reqTech:[
-          "Diseño estructural y eléctrico del poste (canalizaciones, compartimientos, seguridad).",
-          "Integración IoT (protocolos, gateway, firmware).",
-          "Backend y tablero (telemetría, logs, alertas).",
-        ],
+        techTitle: "Tecnología Habilitadora",
+        techDesc: "Integración de datos operativos y analítica descriptiva.",
+        monetization: "Mayor retención, aumento del share of wallet y diferenciación competitiva.",
+        impact: "Reducción del riesgo de pérdida de clientes estratégicos y expansión comercial.",
+        risk: "Bajo a Medio – Requiere adopción del cliente pero no altera el core operativo.",
       },
       {
-        id: "disenador-acero",
-        title: "Diseñador Estructural en Acero",
-        subtitle: "Asistente/Plataforma para diseño y documentación técnica",
+        id: "iaas",
+        num: 3,
+        shortTitle: "Inventory as a Service",
+        title: "Inventory as a Service (IaaS)",
+        description:[
+          "Modelo contractual basado en tarifa mensual por disponibilidad garantizada, en lugar de facturación exclusivamente por día.",
+        ],
+        techTitle: "Tecnología Habilitadora",
+        techDesc: "Forecast predictivo y modelos de reposición inteligente.",
+        monetization: "Ingresos recurrentes y mayor previsibilidad de flujo de caja.",
+        impact: "Mejora en estabilidad financiera y fidelización de cuentas grandes.",
+        risk: "Medio – Requiere precisión en forecast y control operativo.",
+      },
+      {
+        id: "plataforma-b2b",
+        num: 4,
+        shortTitle: "Plataforma B2B",
+        title: "Plataforma B2B para Alquiler/Reserva en Tiempo Real",
+        description:[
+          "Portal digital donde clientes pueden consultar disponibilidad real y reservar inventario anticipadamente.",
+        ],
+        techTitle: "Tecnología Habilitadora",
+        techDesc: "Integración de inventario en tiempo real y motor de validación automática.",
+        monetization: "Precio dinámico, reservas anticipadas y membresías corporativas.",
+        impact: "Posicionamiento como operador digital líder en alquiler industrial regional.",
+        risk: "Medio – Depende de madurez en calidad de datos.",
+      },
+      {
+        id: "centro-inteligencia",
+        num: 5,
+        shortTitle: "Centro de Inteligencia",
+        title: "Centro de Inteligencia de Obras y Demanda Sectorial",
+        description:[
+          "Creación de una unidad que consolide datos propios y fuentes externas para generar reportes predictivos del sector.",
+        ],
+        techTitle: "Tecnología Habilitadora",
+        techDesc: "Analítica avanzada, scraping de datos públicos y modelos de proyección sectorial.",
+        monetization: "Venta de reportes premium y alertas estratégicas.",
+        impact: "Posicionamiento como referente informacional del sector.",
+        risk: "Alto – Nuevo modelo de negocio informacional.",
+      },
+      {
+        id: "disenador-estructural",
+        num: 6,
+        shortTitle: "Diseñador Estructural",
+        title: "Proyectos en Acero mediante Diseñador Estructural",
+        description:[
+          "Solución de construcción en acero que facilita flujos de trabajo de construcción mediante una plataforma de diseño estructural en acero automatizada que permite múltiples configuraciones:",
+          "▪ Diferentes tamaños (m²)\n▪ Niveles\n▪ Configuraciones Estructurales\n▪ Restricciones de Presupuesto",
+        ],
+        extraBullets:[
+          "Estructuras en acero son un 5-10% más eficientes en términos de manejo de personal.",
+          "Desperdicios de material para construcción en concreto pueden llegar a ser del 5-10%, mientras que en acero son del 2%.",
+          "El montaje de estructuras de acero se realiza un 40% más rápido.",
+          "Costos de administración, como vigilancia, seguros, y servicios, se reducen un 20% por la reducción de tiempo de obra.",
+          "Existe ahorro potencial en interés bancario al terminar los proyectos antes.",
+        ],
+        techTitle: "Tecnología Habilitadora",
+        techDesc: "Engine de diseño estructural, Integración de BIM y procesamiento de modelado, Modelo de costos y materiales, Interfaz de simulación de escenarios.",
+        monetization: "Aceleración de demanda y ventas de acero estructural, renta de equipos, servicios especializados de ingeniería.",
+        impact: "Diferenciador como innovador tecnológico en construcción y diseño de estructuras en acero. Posicionamiento a largo plazo como una plataforma de construcción basada en tecnología.",
+        risk: "Alto – Extensión del modelo actual sin cambio estructural, pero con alta complejidad tecnológica y requisitos de inversión.",
         mediaType: "video",
         mediaSrc: "/images/disrupcion/disenador-acero.mp4",
-        bullets:[
-          "Motor/Asistente para generar diseños preliminares, memorias y listas de corte.",
-          "Plantillas para entregar planos y documentación de forma consistente.",
-          "Estandariza criterios y reduce retrabajo en proyectos repetitivos.",
-        ],
-        outcome:[
-          "Reducción de tiempos en prediseño y documentación.",
-          "Mayor consistencia (normas, formatos, checklist).",
-          "Base para una “fábrica de diseños” escalable con QA técnico.",
-        ],
-        kpis:[
-          "Tiempo de prediseño (horas por proyecto)",
-          "Retrabajos por observaciones",
-          "Cumplimiento de checklist técnico",
-          "Tiempo de entrega de planos",
-        ],
-        reqFunc:[
-          "Definir entradas mínimas (cargas, luces, restricciones, normas aplicables).",
-          "Flujo de aprobación: revisión técnica + sellado/entrega.",
-          "Biblioteca de soluciones tipo (perfiles, conexiones, placas, uniones).",
-        ],
-        reqTech:[
-          "Repositorio de plantillas (DWG/DXF/PDF) y generación automática de documentos.",
-          "Reglas de cálculo / compatibilidad con software existente (si aplica).",
-          "Trazabilidad: versión de diseño, cambios y responsables.",
-        ],
       },
       {
-        id: "marketplace",
-        title: "Marketplace Dinámico",
-        subtitle: "Optimización de tarifas según demanda, disponibilidad y operación",
+        id: "habitat-gv",
+        num: 7,
+        shortTitle: "Hábitat GV",
+        title: "Hábitat GV: Disrupción Modular",
+        description:[
+          "Solución de paquetización integral que consiste en:",
+          "Diseño BIM/BEM + Fabricación + Instalación - \"Llave en Mano\"",
+        ],
+        techTitle: "Desestacionalización",
+        techDesc: "Crea una línea de ingresos que no depende exclusivamente del ciclo de las grandes constructoras nacionales.",
+        monetization: "El diseño y la marca \"vivienda premium\" permiten márgenes significativamente superiores a la fabricación de estructuras estándar.",
+        impact: "Estos módulos pueden ser exportados (aprovechando la visión de internacionalización hacia USA/Canadá), vendiéndose como kits de ensamblaje rápido en mercados con mano de obra costosa.",
+        risk: "Alto",
         mediaType: "image",
-        mediaSrc: "/images/disrupcion/marketplace.png",
-        bullets:[
-          "Marketplace para publicar activos/servicios con disponibilidad real y reglas de negocio.",
-          "Pricing dinámico por temporada, escasez, lead time, ubicación y uso histórico.",
-          "Automatización de cotización → reserva → despacho → retorno → facturación.",
-        ],
-        outcome:[
-          "Incremento de utilización de activos (más rotación rentable).",
-          "Menor pérdida por disponibilidad falsa o demoras de respuesta.",
-          "Información consolidada para forecast y planificación de inventario.",
-        ],
-        kpis:[
-          "Utilización de activos (%)",
-          "Conversión cotización → orden",
-          "Tiempo de respuesta comercial",
-          "Margen por orden / por activo",
-        ],
-        reqFunc:[
-          "Gestión de catálogo + reglas de disponibilidad por sede.",
-          "Motor de pricing: reglas + modelos + aprobaciones.",
-          "Flujos de reserva, pagos, logística y devoluciones.",
-        ],
-        reqTech:[
-          "Integración con ERP/CRM (clientes, inventario, órdenes, facturación).",
-          "Auditoría de precios y trazabilidad de decisiones del motor.",
-          "Infra de datos para forecast, elasticidad y A/B tests (si aplica).",
-        ],
+        mediaSrc: "/images/disrupcion/modular.png",
       },
-      {
-        id: "viviendas-modulares",
-        title: "Viviendas Modulares en Acero",
-        subtitle: "Industrialización de vivienda: diseño, fabricación y montaje",
-        mediaType: "image",
-        mediaSrc: "/images/disrupcion/viviendas-modulares.png",
-        bullets:[
-          "Sistema modular para vivienda: crecimiento por módulos (1–N) y variantes de acabados.",
-          "Estandarización de estructura, conexiones y rutas MEP (eléctrico/hidráulico).",
-          "Modelo de costos y tiempos optimizado para producción repetible.",
-        ],
-        outcome:[
-          "Catálogo de modelos (fichas técnicas, planos, renders y BOM).",
-          "Reducción del tiempo total obra (fabricación + montaje).",
-          "Base para escalar: alianzas, licitaciones y ventas B2B/B2C.",
-        ],
-        kpis:[
-          "Tiempo de fabricación por módulo",
-          "Tiempo de montaje en sitio",
-          "Costo por m²",
-          "Defectos / retrabajos post-montaje",
-        ],
-        reqFunc:[
-          "Definir portafolio (tipologías, tamaños, acabados, opciones).",
-          "Proceso comercial: cotización, personalización y contrato.",
-          "Checklist de instalación y postventa.",
-        ],
-        reqTech:[
-          "Diseño estructural + especificación de materiales (corrosión, clima).",
-          "Planos de fabricación y control de calidad.",
-          "Integración CAD/BOM con compras y producción (si aplica).",
-        ],
-      },
-    ],[]
+    ],
+    []
   );
 
-  const [activeId, setActiveId] = useState(items[0]?.id ?? "");
+  const[activeId, setActiveId] = useState(items[0]?.id ?? "");
   const active = items.find((i) => i.id === activeId) ?? items[0];
 
   return (
-    <div className="space-y-10 md:space-y-14 animate-in fade-in duration-700 font-sans pb-10">
+    <div className="space-y-10 md:space-y-12 animate-in fade-in duration-700 font-sans pb-10">
       
-      {/* HEADER */}
+      {/* HEADER MARCO ESTRATÉGICO */}
       <div className="mb-4">
-        <h1 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 leading-tight">
-          Disrupción
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-black tracking-tight text-gray-900 leading-tight">
+          Marco Estratégico
         </h1>
-        <p className="mt-3 text-base md:text-lg text-gray-500 font-medium max-w-3xl">
-          Proyectos con enfoque de producto, escalabilidad y repetibilidad técnica.
+        <p className="mt-4 text-lg md:text-xl lg:text-2xl text-gray-900 font-bold max-w-5xl leading-snug">
+          Capturar mayor valor del negocio mediante modelos de ingresos inteligentes, optimización de margen, y monetización de información.
         </p>
       </div>
 
@@ -209,146 +159,139 @@ export default function DisrupcionPage() {
               key={it.id}
               onClick={() => setActiveId(it.id)}
               className={[
-                "px-5 py-2.5 rounded-xl text-sm md:text-base font-bold transition-all duration-300",
+                "flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm md:text-base font-bold transition-all duration-300",
                 isActive
-                  ? "bg-[#183f73] text-white shadow-md shadow-blue-900/20 scale-105"
+                  ? "bg-[#183f73] text-white shadow-md shadow-blue-900/20 scale-[1.02]"
                   : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200 hover:border-gray-300",
               ].join(" ")}
             >
-              {it.title}
+              <span className={[
+                "w-7 h-7 flex items-center justify-center rounded-lg text-xs",
+                isActive ? "bg-white/20 text-white" : "bg-gray-100 text-gray-500"
+              ].join(" ")}>
+                {it.num}
+              </span>
+              {it.shortTitle}
             </button>
           );
         })}
       </div>
 
-      {/* CONTENIDO DEL PROYECTO (Con animacion key para forzar re-render) */}
-      <div key={active.id} className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-8 items-start animate-in fade-in zoom-in-95 duration-500">
+      {/* CONTENIDO DEL PROYECTO */}
+      <div key={active.id} className="grid grid-cols-1 lg:grid-cols-[1.1fr_1.3fr] gap-6 items-stretch animate-in fade-in zoom-in-95 duration-500">
         
-        {/* LADO IZQUIERDO: Media & Intro */}
+        {/* LADO IZQUIERDO: Contexto y Media */}
         <div className="bg-white border border-gray-100 rounded-[2rem] overflow-hidden shadow-sm flex flex-col">
-          <div className="bg-[#0e346a] px-6 py-5 text-white">
+          <div className="bg-[#0e346a] px-6 py-5 text-white flex justify-between items-center gap-4">
             <h2 className="text-xl md:text-2xl font-black leading-tight">
               {active.title}
             </h2>
-            {active.subtitle && (
-              <p className="mt-2 text-blue-100 font-medium text-sm md:text-base leading-snug">
-                {active.subtitle}
-              </p>
-            )}
+            <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-white/20 rounded-xl font-black text-xl">
+              {active.num}
+            </div>
           </div>
 
-          <div className="p-6 bg-gray-50/50">
-            {active.mediaType === "image" ? (
-              <div className="w-full">
-                <img
-                  src={active.mediaSrc}
-                  alt={active.title}
-                  className="w-full h-auto rounded-xl border border-gray-200 shadow-sm object-cover"
-                  loading="lazy"
-                />
+          <div className="flex flex-col flex-1 p-6 md:p-8 bg-gray-50/50">
+            {/* Si existe media, lo renderizamos arriba */}
+            {active.mediaSrc && (
+              <div className="mb-6 w-full">
+                {active.mediaType === "image" ? (
+                  <img
+                    src={active.mediaSrc}
+                    alt={active.title}
+                    className="w-full h-auto rounded-xl border border-gray-200 shadow-sm object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <video
+                    src={active.mediaSrc}
+                    controls
+                    className="w-full rounded-xl border border-gray-200 shadow-sm"
+                    preload="metadata"
+                  />
+                )}
               </div>
-            ) : (
-              <div className="w-full">
-                <video
-                  src={active.mediaSrc}
-                  controls
-                  className="w-full rounded-xl border border-gray-200 shadow-sm"
-                  preload="metadata"
-                />
+            )}
+
+            {/* Descripción */}
+            <div className="space-y-4 text-base md:text-lg text-gray-700 leading-relaxed font-medium whitespace-pre-line">
+              {active.description.map((paragraph, idx) => (
+                <p key={idx}>{paragraph}</p>
+              ))}
+            </div>
+
+            {/* Bullets Adicionales (Ej: Diseñador Estructural) */}
+            {active.extraBullets && (
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <ul className="space-y-3 text-sm md:text-base text-gray-700 leading-relaxed">
+                  {active.extraBullets.map((bullet, idx) => (
+                    <li key={idx} className="flex gap-3 items-start">
+                      <span className="text-[#183f73] font-black mt-0.5">▪</span>
+                      <span>{bullet}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             )}
           </div>
         </div>
 
-        {/* LADO DERECHO: Detalles (Panel Dual) */}
+        {/* LADO DERECHO: Detalles Estratégicos (Paneles Oscuro y Claro) */}
         <div className="flex flex-col sm:flex-row bg-white border border-gray-100 rounded-[2rem] overflow-hidden shadow-sm">
           
-          {/* Panel Oscuro (Resumen y Resultados) */}
-          <div className="w-full sm:w-1/2 bg-[#183f73] p-6 md:p-8 text-white flex flex-col gap-8">
+          {/* Panel Oscuro (Impacto y Riesgo) */}
+          <div className="w-full sm:w-1/2 bg-[#1f4f87] p-6 md:p-8 text-white flex flex-col gap-10">
             <div>
-              <SectionTitleLight>Resumen</SectionTitleLight>
-              <ul className="mt-4 space-y-3 text-sm md:text-base text-blue-50 leading-relaxed">
-                {active.bullets.map((b, idx) => (
-                  <li key={idx} className="flex gap-3 items-start">
-                    <span className="text-blue-300 font-black mt-0.5">▪</span>
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
+              <SectionTitleLight>Impacto Estratégico</SectionTitleLight>
+              <p className="mt-4 text-base md:text-[18px] text-blue-50 leading-relaxed font-medium">
+                {active.impact}
+              </p>
             </div>
 
             <div>
-              <SectionTitleLight>Resultados Esperados</SectionTitleLight>
-              <ul className="mt-4 space-y-3 text-sm md:text-base text-blue-50 leading-relaxed">
-                {active.outcome.map((b, idx) => (
-                  <li key={idx} className="flex gap-3 items-start">
-                    <span className="text-blue-300 font-black mt-0.5">▪</span>
-                    <span>{b}</span>
-                  </li>
-                ))}
-              </ul>
+              <SectionTitleLight>Nivel de Riesgo</SectionTitleLight>
+              <p className="mt-4 text-base md:text-[18px] text-blue-50 leading-relaxed font-medium">
+                {active.risk}
+              </p>
             </div>
           </div>
 
-          {/* Panel Claro (KPIs y Requerimientos) */}
-          <div className="w-full sm:w-1/2 p-6 md:p-8 flex flex-col gap-8 bg-white">
+          {/* Panel Claro (Tecnología y Monetización) */}
+          <div className="w-full sm:w-1/2 p-6 md:p-8 flex flex-col gap-10 bg-white">
             <div>
-              <SectionTitleDark>KPIs de Éxito</SectionTitleDark>
-              <ul className="mt-4 space-y-3 text-sm md:text-base text-gray-600 leading-relaxed">
-                {active.kpis.map((k, idx) => (
-                  <li key={idx} className="flex gap-3 items-start">
-                    <span className="text-[#1f5f9f] font-black mt-0.5">▪</span>
-                    <span>{k}</span>
-                  </li>
-                ))}
-              </ul>
+              <SectionTitleDark>{active.techTitle || "Tecnología Habilitadora"}</SectionTitleDark>
+              <p className="mt-4 text-base md:text-[18px] text-gray-600 leading-relaxed font-medium">
+                {active.techDesc}
+              </p>
             </div>
 
             <div>
-              <SectionTitleDark>Req. Funcionales</SectionTitleDark>
-              <ul className="mt-4 space-y-3 text-sm md:text-base text-gray-600 leading-relaxed">
-                {active.reqFunc.map((k, idx) => (
-                  <li key={idx} className="flex gap-3 items-start">
-                    <span className="text-[#1f5f9f] font-black mt-0.5">▪</span>
-                    <span>{k}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <SectionTitleDark>Req. Técnicos</SectionTitleDark>
-              <ul className="mt-4 space-y-3 text-sm md:text-base text-gray-600 leading-relaxed">
-                {active.reqTech.map((k, idx) => (
-                  <li key={idx} className="flex gap-3 items-start">
-                    <span className="text-[#1f5f9f] font-black mt-0.5">▪</span>
-                    <span>{k}</span>
-                  </li>
-                ))}
-              </ul>
+              <SectionTitleDark>Modelo de Monetización</SectionTitleDark>
+              <p className="mt-4 text-base md:text-[18px] text-gray-600 leading-relaxed font-medium">
+                {active.monetization}
+              </p>
             </div>
           </div>
 
         </div>
       </div>
-
-      {/* FOOTNOTE GENERAL */}
-      <div className="mt-8 bg-gray-50 border border-gray-100 text-gray-500 px-5 py-4 rounded-xl text-sm md:text-base font-medium flex items-start gap-3">
-        <span className="text-lg leading-none mt-0.5">ℹ️</span>
-        <p>
-          Los requisitos y KPIs expuestos representan un caso de negocio preliminar y están sujetos a cambios conforme a iteraciones de diseño y validación técnica.
-        </p>
-      </div>
-
     </div>
   );
 }
 
-// Componentes auxiliares para títulos
+// Componentes auxiliares para títulos de sección (Adaptados a los de tus diapositivas)
 function SectionTitleLight({ children }: { children: React.ReactNode }) {
-  return <h3 className="text-lg md:text-xl font-black tracking-wide text-white border-b border-white/20 pb-2">{children}</h3>;
+  return (
+    <h3 className="text-xl md:text-2xl font-black tracking-tight text-white border-b-2 border-white/20 pb-3">
+      {children}
+    </h3>
+  );
 }
 
 function SectionTitleDark({ children }: { children: React.ReactNode }) {
-  return <h3 className="text-lg md:text-xl font-black tracking-wide text-gray-900 border-b border-gray-200 pb-2">{children}</h3>;
+  return (
+    <h3 className="text-xl md:text-2xl font-black tracking-tight text-gray-900 border-b-2 border-gray-200 pb-3">
+      {children}
+    </h3>
+  );
 }
